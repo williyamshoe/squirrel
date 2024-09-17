@@ -177,88 +177,108 @@ def plot_kinematic_maps(voronoi_binning_output, bin_centers, bin_kinematics, rad
         plt.pause(1)
         plt.clf()
 
-    if any(vminmax > 0):
-        v_min = vminmax[0]
-        v_max = vminmax[1]
-        vd_min = vminmax[2]
-        vd_max = vminmax[3]
-    else:
-        v_min = -100
-        v_max = 100
-        vd_min = np.nanmin(VD) - 5
-        vd_max = np.nanmax(VD) + 5
+    # if any(vminmax > 0):
+    #     v_min = vminmax[0]
+    #     v_max = vminmax[1]
+    #     vd_min = vminmax[2]
+    #     vd_max = vminmax[3]
+    # else:
+    #     v_min = -100
+    #     v_max = 100
+    #     vd_min = np.nanmin(VD) - 5
+    #     vd_max = np.nanmax(VD) + 5
+    #
+    # # velocity dispersion
+    # plt.figure();
+    # plt.imshow(VD, origin='lower', cmap='sauron', vmin=vd_min, vmax=vd_max, extent=extent);
+    # if annular_global_templates:
+    #     # plot circular annuli
+    #     for i, radius in enumerate(annular_radii):
+    #         circle = plt.Circle((0, 0), radius, color='k', fill=False, linestyle='--')
+    #         ax = plt.gca()
+    #         ax.add_patch(circle)
+    #         # plt.imshow(bad_bins, origin='lower', cmap='Greys')
+    # cbar1 = plt.colorbar()
+    # cbar1.set_label(r'$\sigma$ [km/s]')
+    # # plt.savefig(target_dir + obj_name + '_VD.png')
+    # plt.pause(1)
+    # plt.clf()
+    #
+    # # error in velocity dispersion
+    # plt.figure();
+    # dVD = np.copy(dVD_2d)
+    # dVD[~good_bins] = np.nan
+    # plt.imshow(dVD, origin='lower', cmap='sauron', vmin=0, vmax=mask_error, extent=extent);
+    # if annular_global_templates:
+    #     # plot circular annuli
+    #     for i, radius in enumerate(annular_radii):
+    #         circle = plt.Circle((0, 0), radius, color='k', fill=False, linestyle='--')
+    #         ax = plt.gca()
+    #         ax.add_patch(circle)
+    # cbar2 = plt.colorbar()
+    # cbar2.set_label(r'd$\sigma$ [km/s]')
+    # # plt.savefig(target_dir + obj_name + '_dVD.png')
+    # plt.pause(1)
+    # plt.clf()
+    #
+    # # subtract the "bulk" velocity, small offset in galaxy velocity from redshift error
+    # bulk = np.nanmedian(V_2d)
+    # # calculate a better bulk velocity
+    # pa, pa_err, vsyst = fit_kinematic_pa(bin_centers[:, 0] - 21, bin_centers[:, 1] - 21,
+    #                                      bin_kinematics[:, 0] - bulk)
+    # bulk += vsyst
+    #
+    # # mean velocity
+    # plt.figure();
+    # V = np.copy(V_2d)
+    # V[~good_bins] = np.nan
+    # plt.imshow(V - bulk, origin='lower', cmap='sauron', vmin=v_min, vmax=v_max, extent=extent);
+    # if annular_global_templates:
+    #     # plot circular annuli
+    #     for i, radius in enumerate(annular_radii):
+    #         circle = plt.Circle((0, 0), radius, color='k', fill=False, linestyle='--')
+    #         ax = plt.gca()
+    #         ax.add_patch(circle)
+    # cbar3 = plt.colorbar()
+    # cbar3.set_label(r'Vel [km/s]')
+    # plt.title("Velocity map")
+    # # plt.savefig(target_dir + obj_name + '_V.png')
+    # plt.pause(1)
+    # plt.clf()
+    #
+    # # error in velocity
+    # plt.figure();
+    # dV = np.copy(dV_2d)
+    # dV[~good_bins] = np.nan
+    # plt.imshow(dV, origin='lower', cmap='sauron', vmin=0, vmax=mask_error, extent=extent);
+    # if annular_global_templates:
+    #     # plot circular annuli
+    #     for i, radius in enumerate(annular_radii):
+    #         circle = plt.Circle((0, 0), radius, color='k', fill=False, linestyle='--')
+    #         ax = plt.gca()
+    #         ax.add_patch(circle)
+    # cbar4 = plt.colorbar()
+    # cbar4.set_label(r'dVel [km/s]')
+    # plt.title("error on velocity")
+    # plt.pause(1)
+    # plt.clf()
 
-    # velocity dispersion
-    plt.figure();
-    plt.imshow(VD, origin='lower', cmap='sauron', vmin=vd_min, vmax=vd_max, extent=extent);
-    if annular_global_templates:
-        # plot circular annuli
-        for i, radius in enumerate(annular_radii):
-            circle = plt.Circle((0, 0), radius, color='k', fill=False, linestyle='--')
-            ax = plt.gca()
-            ax.add_patch(circle)
-            # plt.imshow(bad_bins, origin='lower', cmap='Greys')
-    cbar1 = plt.colorbar()
-    cbar1.set_label(r'$\sigma$ [km/s]')
-    # plt.savefig(target_dir + obj_name + '_VD.png')
-    plt.pause(1)
-    plt.clf()
+def display_pixels(x, y, counts, pixelsize):
+    """
+    Display pixels at coordinates (x, y) coloured with "counts".
+    This routine is fast but not fully general as it assumes the spaxels
+    are on a regular grid. This needs not be the case for Voronoi binning.
 
-    # error in velocity dispersion
-    plt.figure();
-    dVD = np.copy(dVD_2d)
-    dVD[~good_bins] = np.nan
-    plt.imshow(dVD, origin='lower', cmap='sauron', vmin=0, vmax=mask_error, extent=extent);
-    if annular_global_templates:
-        # plot circular annuli
-        for i, radius in enumerate(annular_radii):
-            circle = plt.Circle((0, 0), radius, color='k', fill=False, linestyle='--')
-            ax = plt.gca()
-            ax.add_patch(circle)
-    cbar2 = plt.colorbar()
-    cbar2.set_label(r'd$\sigma$ [km/s]')
-    # plt.savefig(target_dir + obj_name + '_dVD.png')
-    plt.pause(1)
-    plt.clf()
+    """
+    xmin, xmax = np.min(x), np.max(x)
+    ymin, ymax = np.min(y), np.max(y)
+    nx = int(round((xmax - xmin)/pixelsize) + 1)
+    ny = int(round((ymax - ymin)/pixelsize) + 1)
+    img = np.full((nx, ny), np.nan)  # use nan for missing data
+    j = np.round((x - xmin)/pixelsize).astype(int)
+    k = np.round((y - ymin)/pixelsize).astype(int)
+    img[j, k] = counts
 
-    # subtract the "bulk" velocity, small offset in galaxy velocity from redshift error
-    bulk = np.nanmedian(V_2d)
-    # calculate a better bulk velocity
-    pa, pa_err, vsyst = fit_kinematic_pa(bin_centers[:, 0] - 21, bin_centers[:, 1] - 21,
-                                         bin_kinematics[:, 0] - bulk)
-    bulk += vsyst
-
-    # mean velocity
-    plt.figure();
-    V = np.copy(V_2d)
-    V[~good_bins] = np.nan
-    plt.imshow(V - bulk, origin='lower', cmap='sauron', vmin=v_min, vmax=v_max, extent=extent);
-    if annular_global_templates:
-        # plot circular annuli
-        for i, radius in enumerate(annular_radii):
-            circle = plt.Circle((0, 0), radius, color='k', fill=False, linestyle='--')
-            ax = plt.gca()
-            ax.add_patch(circle)
-    cbar3 = plt.colorbar()
-    cbar3.set_label(r'Vel [km/s]')
-    plt.title("Velocity map")
-    # plt.savefig(target_dir + obj_name + '_V.png')
-    plt.pause(1)
-    plt.clf()
-
-    # error in velocity
-    plt.figure();
-    dV = np.copy(dV_2d)
-    dV[~good_bins] = np.nan
-    plt.imshow(dV, origin='lower', cmap='sauron', vmin=0, vmax=mask_error, extent=extent);
-    if annular_global_templates:
-        # plot circular annuli
-        for i, radius in enumerate(annular_radii):
-            circle = plt.Circle((0, 0), radius, color='k', fill=False, linestyle='--')
-            ax = plt.gca()
-            ax.add_patch(circle)
-    cbar4 = plt.colorbar()
-    cbar4.set_label(r'dVel [km/s]')
-    plt.title("error on velocity")
-    plt.pause(1)
-    plt.clf()
+    plt.imshow(np.rot90(img), interpolation='nearest', cmap='sauron',
+               extent=[xmin - pixelsize/2, xmax + pixelsize/2,
+                       ymin - pixelsize/2, ymax + pixelsize/2])
