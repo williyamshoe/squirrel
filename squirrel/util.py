@@ -187,8 +187,8 @@ def plot_kinematic_maps(voronoi_binning_output, bin_centers, bin_kinematics, rad
         vd_min = vminmax[2]
         vd_max = vminmax[3]
     else:
-        v_min = -100
-        v_max = 100
+        v_min = -500
+        v_max = 500
         vd_min = np.nanmin(VD) - 5
         vd_max = np.nanmax(VD) + 5
 
