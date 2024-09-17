@@ -92,7 +92,7 @@ def plot_kinematic_maps(voronoi_binning_output, bin_centers, bin_kinematics, rad
     '''
     Function to make 2D maps of kinematic components and errors of all bins measured in "ppxf_bin_spectra" function.
     '''
-    annular_radii=np.array([0.5, 1., 1.5]) * reff * pixel_scale
+    annular_radii=np.array([0.1, 1]) * reff
 
     # make arrays of kinematic components and error of size number of pixels
     VD_array = np.zeros(voronoi_binning_output.shape[0])
@@ -174,39 +174,39 @@ def plot_kinematic_maps(voronoi_binning_output, bin_centers, bin_kinematics, rad
         cbar1 = plt.colorbar(p)
         cbar1.set_label(r'$\sigma$ [km/s]')
         for i, row in enumerate(bin_centers):
-            # bin_centers_ = (row - (VD_2d.shape[0] // 2)) * pixel_scale
-            plt.annotate(int(i), row, fontsize=10, annotation_clip=False, ha='center')
+            bin_centers_ = (row - (VD_2d.shape[0] // 2)) * pixel_scale
+            plt.annotate(int(i), bin_centers_, fontsize=10, annotation_clip=False, ha='center')
 
         # plt.savefig(target_dir + obj_name + '_VD.png')
         plt.pause(1)
         plt.clf()
 
-    # if any(vminmax > 0):
-    #     v_min = vminmax[0]
-    #     v_max = vminmax[1]
-    #     vd_min = vminmax[2]
-    #     vd_max = vminmax[3]
-    # else:
-    #     v_min = -100
-    #     v_max = 100
-    #     vd_min = np.nanmin(VD) - 5
-    #     vd_max = np.nanmax(VD) + 5
-    #
-    # # velocity dispersion
-    # plt.figure();
-    # plt.imshow(VD, origin='lower', cmap='sauron', vmin=vd_min, vmax=vd_max, extent=extent);
-    # if annular_global_templates:
-    #     # plot circular annuli
-    #     for i, radius in enumerate(annular_radii):
-    #         circle = plt.Circle((0, 0), radius, color='k', fill=False, linestyle='--')
-    #         ax = plt.gca()
-    #         ax.add_patch(circle)
-    #         # plt.imshow(bad_bins, origin='lower', cmap='Greys')
-    # cbar1 = plt.colorbar()
-    # cbar1.set_label(r'$\sigma$ [km/s]')
-    # # plt.savefig(target_dir + obj_name + '_VD.png')
-    # plt.pause(1)
-    # plt.clf()
+    if any(vminmax > 0):
+        v_min = vminmax[0]
+        v_max = vminmax[1]
+        vd_min = vminmax[2]
+        vd_max = vminmax[3]
+    else:
+        v_min = -100
+        v_max = 100
+        vd_min = np.nanmin(VD) - 5
+        vd_max = np.nanmax(VD) + 5
+
+    # velocity dispersion
+    plt.figure();
+    plt.imshow(VD, origin='lower', cmap='sauron', vmin=vd_min, vmax=vd_max, extent=extent);
+    if annular_global_templates:
+        # plot circular annuli
+        for i, radius in enumerate(annular_radii):
+            circle = plt.Circle((0, 0), radius, color='k', fill=False, linestyle='--')
+            ax = plt.gca()
+            ax.add_patch(circle)
+            # plt.imshow(bad_bins, origin='lower', cmap='Greys')
+    cbar1 = plt.colorbar()
+    cbar1.set_label(r'$\sigma$ [km/s]')
+    # plt.savefig(target_dir + obj_name + '_VD.png')
+    plt.pause(1)
+    plt.clf()
     #
     # # error in velocity dispersion
     # plt.figure();
