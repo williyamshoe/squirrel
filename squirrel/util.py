@@ -92,7 +92,7 @@ def plot_kinematic_maps(voronoi_binning_output, bin_centers, bin_kinematics, rad
     '''
     Function to make 2D maps of kinematic components and errors of all bins measured in "ppxf_bin_spectra" function.
     '''
-    annular_radii=np.array([0.0, 0.5, 1., 1.5]) * reff * pixel_scale
+    annular_radii=np.array([0.5, 1., 1.5]) * reff * pixel_scale
 
     # make arrays of kinematic components and error of size number of pixels
     VD_array = np.zeros(voronoi_binning_output.shape[0])
@@ -284,6 +284,6 @@ def display_pixels(x, y, counts, pixelsize):
 
     return ([xmin - pixelsize/2, xmax + pixelsize/2,
                        ymin - pixelsize/2, ymax + pixelsize/2],
-            plt.imshow(img, interpolation='nearest', cmap='sauron',
+            plt.imshow(np.rot90(img), interpolation='nearest', cmap='sauron',
                extent=[xmin - pixelsize/2, xmax + pixelsize/2,
                        ymin - pixelsize/2, ymax + pixelsize/2]))
