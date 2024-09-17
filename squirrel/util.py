@@ -174,7 +174,7 @@ def plot_kinematic_maps(voronoi_binning_output, bin_centers, bin_kinematics, rad
         cbar1.set_label(r'$\sigma$ [km/s]')
         for i, row in enumerate(bin_centers):
             # bin_centers_ = (row - (VD_2d.shape[0] // 2)) * pixel_scale
-            plt.annotate(i, bin_centers, fontsize=10, annotation_clip=False, ha='center')
+            plt.annotate(i, row, fontsize=10, annotation_clip=False, ha='center')
 
         # plt.savefig(target_dir + obj_name + '_VD.png')
         plt.pause(1)
