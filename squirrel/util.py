@@ -4,12 +4,12 @@ import matplotlib.pyplot as plt
 from pafit.fit_kinematic_pa import fit_kinematic_pa
 
 
-def plot_kinematic_maps(voronoi_binning_output, bin_centers, bin_kinematics, radius_in_pixels, pixel_scale,
+def plot_kinematic_maps(voronoi_binning_output, bin_centers, bin_kinematics, radius_in_pixels, pixel_scale, reff,
                         show_bin_num=True, vminmax=np.zeros(4), mask_error=20, annular_global_templates=True):
     '''
     Function to make 2D maps of kinematic components and errors of all bins measured in "ppxf_bin_spectra" function.
     '''
-    annular_radii=np.array([0.0, 0.5, 1., 1.5])
+    annular_radii=np.array([0.0, 0.5, 1., 1.5]) * reff
 
     # make arrays of kinematic components and error of size number of pixels
     VD_array = np.zeros(voronoi_binning_output.shape[0])
