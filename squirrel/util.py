@@ -1,6 +1,7 @@
 """This module contains class and functions for general use."""
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import colors
 from pafit.fit_kinematic_pa import fit_kinematic_pa
 
 
@@ -83,6 +84,8 @@ def register_sauron_colormap():
     sauron_r = colors.LinearSegmentedColormap('sauron_r', rdict)
     plt.register_cmap(cmap=sauron)
     plt.register_cmap(cmap=sauron_r)
+
+register_sauron_colormap()
 
 def plot_kinematic_maps(voronoi_binning_output, bin_centers, bin_kinematics, radius_in_pixels, pixel_scale, reff,
                         show_bin_num=True, vminmax=np.zeros(4), mask_error=20, annular_global_templates=True):
