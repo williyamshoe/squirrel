@@ -92,7 +92,7 @@ def plot_kinematic_maps(voronoi_binning_output, bin_centers, bin_kinematics, rad
     '''
     Function to make 2D maps of kinematic components and errors of all bins measured in "ppxf_bin_spectra" function.
     '''
-    annular_radii=np.array([0.0, 0.5, 1., 1.5]) * reff
+    annular_radii=np.array([0.0, 0.5, 1., 1.5]) * reff * pixel_scale
 
     # make arrays of kinematic components and error of size number of pixels
     VD_array = np.zeros(voronoi_binning_output.shape[0])
@@ -160,7 +160,7 @@ def plot_kinematic_maps(voronoi_binning_output, bin_centers, bin_kinematics, rad
     if show_bin_num:
         plt.figure();
 
-        p = display_pixels(voronoi_binning_output[:, 0], voronoi_binning_output[:, 1], voronoi_binning_output[:, 2], pixel_scale)
+        extent = p = display_pixels(voronoi_binning_output[:, 0], voronoi_binning_output[:, 1], voronoi_binning_output[:, 2], pixel_scale)
 
         # p = plt.imshow(VD_2d, origin='lower', cmap='gist_rainbow', extent=extent)
         if annular_global_templates:
@@ -169,7 +169,7 @@ def plot_kinematic_maps(voronoi_binning_output, bin_centers, bin_kinematics, rad
                 circle = plt.Circle((0, 0), radius, color='k', fill=False, linestyle='--')
                 ax = plt.gca()
                 ax.add_patch(circle)
-        plt.imshow(~good_bins, origin='lower', alpha=0.7, cmap='Greys', extent=extent)
+        # plt.imshow(~good_bins, origin='lower', alpha=0.7, cmap='Greys', extent=extent)
         cbar1 = plt.colorbar(p)
         cbar1.set_label(r'$\sigma$ [km/s]')
         for i, row in enumerate(bin_centers):
@@ -282,6 +282,8 @@ def display_pixels(x, y, counts, pixelsize):
     k = np.round((y - ymin)/pixelsize).astype(int)
     img[j, k] = counts
 
-    return plt.imshow(np.rot90(img), interpolation='nearest', cmap='sauron',
+    return ([xmin - pixelsize/2, xmax + pixelsize/2,
+                       ymin - pixelsize/2, ymax + pixelsize/2],
+            plt.imshow(img, interpolation='nearest', cmap='sauron',
                extent=[xmin - pixelsize/2, xmax + pixelsize/2,
-                       ymin - pixelsize/2, ymax + pixelsize/2])
+                       ymin - pixelsize/2, ymax + pixelsize/2]))
