@@ -160,10 +160,10 @@ def plot_kinematic_maps(voronoi_binning_output, bin_centers, bin_kinematics, rad
     if show_bin_num:
         plt.figure();
 
-        # p = display_pixels(voronoi_binning_output[:, 0], voronoi_binning_output[:, 1],
-        #                            [bin_kinematics[int(ii), 0] for ii in voronoi_binning_output[:, 2]], pixel_scale, extent)
+        extent, p = display_pixels(voronoi_binning_output[:, 0], voronoi_binning_output[:, 1],
+                                   [bin_kinematics[int(ii), 0] for ii in voronoi_binning_output[:, 2]], pixel_scale)
 
-        p = plt.imshow(VD_2d, origin='lower', cmap='gist_rainbow', extent=extent)
+        # p = plt.imshow(VD_2d, origin='lower', cmap='gist_rainbow', extent=extent)
         if annular_global_templates:
             # plot circular annuli
             for i, radius in enumerate(annular_radii):
@@ -267,7 +267,7 @@ def plot_kinematic_maps(voronoi_binning_output, bin_centers, bin_kinematics, rad
     # plt.pause(1)
     # plt.clf()
 
-def display_pixels(x, y, counts, pixelsize, extent):
+def display_pixels(x, y, counts, pixelsize):
     """
     Display pixels at coordinates (x, y) coloured with "counts".
     This routine is fast but not fully general as it assumes the spaxels
@@ -283,5 +283,8 @@ def display_pixels(x, y, counts, pixelsize, extent):
     k = np.round((y - ymin)/pixelsize).astype(int)
     img[j, k] = counts
 
-    return plt.imshow(np.rot90(img), interpolation='nearest', cmap='sauron',
-               extent=extent)
+    extent = [xmin - pixelsize / 2, xmax + pixelsize / 2,
+              ymin - pixelsize / 2, ymax + pixelsize / 2]
+
+    return (extent, plt.imshow(np.rot90(img), interpolation='nearest', cmap='sauron',
+                      extent=extent))
