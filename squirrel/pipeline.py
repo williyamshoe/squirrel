@@ -230,4 +230,4 @@ class Pipeline(object):
         if not return_bins:
             return voronoi_binned_spectra
         else:
-            return voronoi_binned_spectra, [xx_coordinates_masked, yy_coordinates_masked, bin_num]
+            return voronoi_binned_spectra, [xx_coordinates_masked, yy_coordinates_masked, bin_num], [bin_cen_x, bin_cen_y]
