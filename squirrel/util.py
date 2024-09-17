@@ -160,7 +160,7 @@ def plot_kinematic_maps(voronoi_binning_output, bin_centers, bin_kinematics, rad
     if show_bin_num:
         plt.figure();
 
-        extent = p = display_pixels(voronoi_binning_output[:, 0], voronoi_binning_output[:, 1], voronoi_binning_output[:, 2], pixel_scale)
+        extent, p = display_pixels(voronoi_binning_output[:, 0], voronoi_binning_output[:, 1], voronoi_binning_output[:, 2], pixel_scale)
 
         # p = plt.imshow(VD_2d, origin='lower', cmap='gist_rainbow', extent=extent)
         if annular_global_templates:
