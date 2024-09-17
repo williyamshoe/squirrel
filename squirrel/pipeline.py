@@ -130,6 +130,7 @@ class Pipeline(object):
         min_snr_per_spaxel=1.0,
         plot=False,
         quiet=True,
+        return_bins=False,
     ):
         """Perform the Voronoi binning.
 
@@ -226,4 +227,7 @@ class Pipeline(object):
         )
         voronoi_binned_spectra.wavelengths_frame = deepcopy(datacube.wavelengths_frame)
 
-        return voronoi_binned_spectra
+        if not return_bins:
+            return voronoi_binned_spectra
+        else:
+            return voronoi_binned_spectra, [xx_coordinates_masked, yy_coordinates_masked, bin_num]
